@@ -15,6 +15,14 @@ metadata:
      backstage.io/techdocs-ref: dir:./docs
      github.com/project-slug: ${{ values.repo_owner }}/${{ values.repo_name }}
      github-actions: enabled
+     github.com/workflows: |
+      [
+        {
+          "workflow": "tfdeploy.yml",
+          "label": "Start",
+          "tooltip": "click here and start the workflow process"
+        }
+      ]
 spec:
   type: service
   owner: guests
