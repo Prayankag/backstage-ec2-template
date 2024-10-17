@@ -14,6 +14,7 @@ metadata:
   annotations:
      backstage.io/techdocs-ref: dir:./docs
      github.com/project-slug: ${{ values.repo_owner }}/${{ values.repo_name }}
+     github-actions: enabled
 spec:
   type: service
   owner: guests
