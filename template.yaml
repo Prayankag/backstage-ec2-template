@@ -89,7 +89,12 @@ spec:
         # url: ./content  # Location of the content directory where catlog-info.yaml file is present for the template
         url: https://github.com/girishcodealchemy/backstage-ec2-template/tree/main/templates/
         values:
-          name: ${{ parameters.name}}
+          name: ${{ parameters.name }}
+          type: ${{ parameters.type }}
+          owner: ${{ parameters.owner }}
+          description: ${{ parameters.description }}
+          repo_name: ${{ (parameters.repoUrl | parseRepoUrl)["repo"] }}
+          repo_owner: ${{ (parameters.repoUrl | parseRepoUrl)["owner"] }}
 
 # Publish the content of the current working directory to our github directory
     - id: publish
