@@ -40,6 +40,5 @@ spec:
   type: internal
   lifecycle: experimental
   owner: ${{ values.owner }}
-  owner: guests
   system: ${{ values.name }}
   definition: "${{ values.description }}"
