@@ -35,13 +35,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ '${{ secrets.AWS_ACCESS_KEY_ID }}' }}
-          aws-secret-access-key: ${{ '${{ secrets.AWS_SECRET_ACCESS_KEY }}' }}
-          aws-session-token: ${{ '${{ secrets.AWS_SESSION_TOKEN }}' }}
-          
       - name: Generate terraform.tfvars
         run: |
           echo "instance_name = \"${{ '${{ github.event.inputs.instanceName }}' }}\"" > ./terraform/terraform.tfvars
@@ -57,6 +50,13 @@ jobs:
           git push
         working-directory: ./terraform
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ '${{ secrets.AWS_ACCESS_KEY_ID }}' }}
+          aws-secret-access-key: ${{ '${{ secrets.AWS_SECRET_ACCESS_KEY }}' }}
+          aws-session-token: ${{ '${{ secrets.AWS_SESSION_TOKEN }}' }}
+          
       - name: Terraform Init
         run: terraform init
         working-directory: ./terraform
@@ -66,7 +66,7 @@ jobs:
         working-directory: ./terraform
 
       - name: Save Terraform Plan
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: tfplan
           path: ./terraform/tfplan
@@ -77,7 +77,7 @@ jobs:
     if: ${{ "${{ github.event.inputs.action == 'apply' }}" }}
     steps:
       - name: Download Terraform Plan
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: tfplan
           path: ./terraform
@@ -110,7 +110,7 @@ jobs:
         working-directory: ./terraform
 
       - name: Save Destroy Plan
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: tfplan
           path: ./terraform/tfplan
