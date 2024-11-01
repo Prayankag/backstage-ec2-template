@@ -45,7 +45,7 @@ jobs:
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add ./terraform/terraform.tfvars
+          git add .
           git commit -m "Update terraform.tfvars for instance deployment"
           git push
         working-directory: ./terraform

@@ -106,6 +106,9 @@ spec:
         # repoVisibility: public # or 'internal' or 'private'
         defaultBranch: main
         requireCodeOwnerReviews: true
+        permissions:
+          actions: write
+          contents: write
 
 # Triggering CI-CD to create resource in our case github action. 
     - id: github-action
