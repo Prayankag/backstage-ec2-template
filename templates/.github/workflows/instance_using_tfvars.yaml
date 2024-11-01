@@ -39,14 +39,14 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ '${{ secrets.AWS_ACCESS_KEY_ID }}' }}
-        aws-secret-access-key: ${{ '${{ secrets.AWS_SECRET_ACCESS_KEY }}' }}
-        aws-session-token: ${{ '${{ secrets.AWS_SESSION_TOKEN }}' }}
+          aws-secret-access-key: ${{ '${{ secrets.AWS_SECRET_ACCESS_KEY }}' }}
+          aws-session-token: ${{ '${{ secrets.AWS_SESSION_TOKEN }}' }}
           
       - name: Generate terraform.tfvars
         run: |
-          echo "instance_name = \"${{ github.event.inputs.instanceName }}\"" > ./terraform/terraform.tfvars
-          echo "aws_region = \"${{ github.event.inputs.awsRegion }}\"" >> ./terraform/terraform.tfvars
-          echo "instance_type = \"${{ github.event.inputs.instanceType }}\"" >> ./terraform/terraform.tfvars
+          echo "instance_name = \"${{ '${{ github.event.inputs.instanceName }}' }}\"" > ./terraform/terraform.tfvars
+          echo "aws_region = \"${{ '${{ github.event.inputs.awsRegion }}' }}\"" >> ./terraform/terraform.tfvars
+          echo "instance_type = \"${{ '${{ github.event.inputs.instanceType }}' }}\"" >> ./terraform/terraform.tfvars
 
       - name: Commit terraform.tfvars
         run: |
