@@ -16,6 +16,9 @@ on:
         description: 'Action to perform (apply/destroy)'
         required: true
 
+env:
+  AWS_ROLE_ARN: ${{ parameter.AWS_ROLE_ARN }}
+
 jobs:
   display-input-values:
     runs-on: ubuntu-latest
@@ -50,12 +53,19 @@ jobs:
           git push
         working-directory: ./terraform
 
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     aws-access-key-id: ${{ '${{ secrets.AWS_ACCESS_KEY_ID }}' }}
+      #     aws-secret-access-key: ${{ '${{ secrets.AWS_SECRET_ACCESS_KEY }}' }}
+      #     aws-session-token: ${{ '${{ secrets.AWS_SESSION_TOKEN }}' }}
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-access-key-id: ${{ '${{ secrets.AWS_ACCESS_KEY_ID }}' }}
-          aws-secret-access-key: ${{ '${{ secrets.AWS_SECRET_ACCESS_KEY }}' }}
-          aws-session-token: ${{ '${{ secrets.AWS_SESSION_TOKEN }}' }}
+          role-to-assume: ${{'${{ env.AWS_ROLE_ARN }}'}}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{'${{github.event.inputs.awsRegion }}'}}
           
       - name: Terraform Init
         run: terraform init
