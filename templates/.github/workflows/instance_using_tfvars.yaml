@@ -3,14 +3,8 @@ name: Manage EC2 Instance
 on:
   workflow_dispatch:
     inputs:
-      instanceName:
-        description: 'Name of the AWS Instance'
-        required: true
-      awsRegion:
-        description: 'AWS Region for the instance'
-        required: true
-      instanceType:
-        description: 'AWS instance type'
+      tfVars:
+        description: 'TFVars for the terraform'
         required: true
       action:
         description: 'Action to perform (apply/destroy)'
@@ -25,9 +19,7 @@ jobs:
     steps:
       - name: Display Input Values
         run: |
-          echo "Instance Name: ${{ '${{ github.event.inputs.instanceName }}' }} "
-          echo "AWS Region: ${{ '${{ github.event.inputs.awsRegion }}' }}"
-          echo "Instance Type: ${{ '${{ github.event.inputs.instanceType }}' }}"
+          echo "TFVars: ${{ '${{ github.event.inputs.tfVars }}' }} "
           echo "Action: ${{ '${{ github.event.inputs.action }}' }}"
 
   ec2_plan:
@@ -40,9 +32,11 @@ jobs:
 
       - name: Generate terraform.tfvars
         run: |
-          echo "instance_name = \"${{ '${{ github.event.inputs.instanceName }}' }}\"" > ./terraform/terraform.tfvars
-          echo "aws_region = \"${{ '${{ github.event.inputs.awsRegion }}' }}\"" >> ./terraform/terraform.tfvars
-          echo "instance_type = \"${{ '${{ github.event.inputs.instanceType }}' }}\"" >> ./terraform/terraform.tfvars
+          echo "${{ github.event.inputs.tfVars }}" | tr ',' '\n' > ./terraform/terraform.tfvars
+
+      - name: Display generated terraform.tfvars
+        run: |
+          cat ./terraform/terraform.tfvars
 
       - name: Commit terraform.tfvars
         run: |
