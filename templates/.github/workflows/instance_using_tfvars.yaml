@@ -32,7 +32,7 @@ jobs:
 
       - name: Generate terraform.tfvars
         run: |
-          echo "${{ github.event.inputs.tfVars }}" | jq -r 'to_entries | .[] | "\(.key)=\"\(.value)\""' > ./terraform/terraform.tfvars
+          echo ${{ '${{ github.event.inputs.tfVars }}' }} | jq -r 'to_entries | .[] | "\(.key)=\"\(.value)\""' > ./terraform/terraform.tfvars
 
       - name: Display generated terraform.tfvars
         run: |
