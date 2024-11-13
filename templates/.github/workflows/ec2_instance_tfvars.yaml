@@ -12,6 +12,7 @@ on:
 
 env:
   AWS_ROLE_ARN: ${{ values.AWS_ROLE_ARN }}
+  AWS_REGION: ${{ values.AWS_REGION }}
 
 jobs:
   display-input-values:
@@ -59,7 +60,7 @@ jobs:
         with:
           role-to-assume: ${{'${{ env.AWS_ROLE_ARN }}'}}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          # aws-region: ${{'${{github.event.inputs.awsRegion }}'}}
+          aws-region: ${{'${{ env.AWS_REGION }}'}}
           
       - name: Terraform Init
         run: terraform init
