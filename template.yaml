@@ -103,12 +103,28 @@ spec:
         allowedHosts: ['github.com']
         description: This repo is to create an ec2 instance ${{ parameters.InstanceName }} using backstage.
         repoUrl: ${{ parameters.repoUrl }}
-        # repoVisibility: public # or 'internal' or 'private'
+        repoVisibility: public
         defaultBranch: main
         requireCodeOwnerReviews: true
         permissions:
           actions: write
           contents: write
+# Create a Pull Request
+    - id: create-pr
+      name: Create Pull Request
+      action: publish:github:pull-request
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        title: "Create EC2 Instance Workflow"
+        description: |
+          This PR adds the workflow to create an EC2 instance in AWS using Backstage.
+          - Instance Name: ${{ parameters.InstanceName }}
+          - AWS Region: ${{ parameters.Region }}
+          - Instance Type: ${{ parameters.InstanceType }}
+          - Action: ${{ parameters.action }}
+        branchName: create-${{ parameters.component_id }}
+        targetBranch: main
+        draft: false
 
 # Triggering CI-CD to create resource in our case github action. 
     - id: github-action
