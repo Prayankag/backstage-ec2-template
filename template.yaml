@@ -112,7 +112,7 @@ spec:
 # Create a Pull Request
     - id: create-pr
       name: Create Pull Request
-      action: publish:github:pull-request
+      action: github:pull-request
       input:
         repoUrl: ${{ parameters.repoUrl }}
         title: "Create EC2 Instance Workflow"
